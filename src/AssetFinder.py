@@ -16,8 +16,7 @@ def fetch(url: str) -> dict:
     Returns:
 
     """
-    # todo handle request status codes
-    # only process requests with response 200
+    # todo handle request status code only process requests with response 200
     asset = {'assets': list(), 'links': list()}
     parse_url = urlparse(url)
     base_url = parse_url[0]+'://'+parse_url[1]
