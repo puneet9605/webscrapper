@@ -30,7 +30,8 @@ def fetch(url: str) -> dict:
     # getting all the img tags
     imgtags = soup.find_all('img')
     # creating a set of src from the img tags
-    imgurls = {imgtag.get('src') if imgtag.get('src').startswith('http') else base_url+imgtag.get('src')for imgtag in
+    imgurls = {imgtag.get('src') if imgtag.get('src').startswith('http')
+               else base_url+imgtag.get('src')for imgtag in
                imgtags}
     # getting all the a tags
     atags = soup.find_all('a')
@@ -79,5 +80,5 @@ def getWebsiteAssets(url: str, url_count: int = -1) -> list:
     return list(imgurls)
 
 if __name__ == '__main__':
-    #fetch('https://google.com')
-    getWebsiteAssets('http://www.udemy.com/',3)
+    fetch('http://www.udemy.com/')
+    #getWebsiteAssets('http://www.udemy.com/', 3)

@@ -1,5 +1,5 @@
 import unittest
-from src.AssetFinder import fetch, getWebsiteAssets
+from webscrapper.AssetFinder import fetch, getWebsiteAssets
 
 class AssetFinder(unittest.TestCase):
     def test_fetch(self):
