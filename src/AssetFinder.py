@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 from requests.exceptions import MissingSchema
 import traceback
+from urllib.parse import urlparse
 
 
 def fetch(url: str) -> dict:
@@ -18,6 +19,8 @@ def fetch(url: str) -> dict:
     # todo handle request status codes
     # only process requests with response 200
     asset = {'assets': list(), 'links': list()}
+    parse_url = urlparse(url)
+    base_url = parse_url[0]+'://'+parse_url[1]
     try:
         htmlbody = requests.get(url).text
     except MissingSchema as ex:
@@ -28,12 +31,18 @@ def fetch(url: str) -> dict:
     # getting all the img tags
     imgtags = soup.find_all('img')
     # creating a set of src from the img tags
-    imgurls = {imgtag.get('src') for imgtag in imgtags}
+    imgurls = {imgtag.get('src') if imgtag.get('src').startswith('http') else base_url+imgtag.get('src')for imgtag in
+               imgtags}
     # getting all the a tags
     atags = soup.find_all('a')
     # creating a set of links from the atags
-    # todo change logic to add the base url to relative links
-    aurll = {atag.get('href') for atag in atags if atag.get('href') and atag.get('href').startswith('http')}
+    aurll = set()
+    for atag in atags:
+        if atag.get('href'):
+            if atag.get('href').startswith('http'):
+                aurll.update(atag.get('href'))
+            else:
+                aurll.update(base_url + atag.get('href'))
     asset = {'assets': list(imgurls), 'links': list(aurll)}
     return asset
 
@@ -75,4 +84,4 @@ def getWebsiteAssets(url: str) -> list:
 
 if __name__ == '__main__':
     #fetch('https://google.com')
-    getWebsiteAssets('www.udemy.com/')
+    getWebsiteAssets('http://www.udemy.com/')
