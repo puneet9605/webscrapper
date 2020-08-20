@@ -16,7 +16,7 @@ def fetch(url: str) -> dict:
     Returns:
 
     """
-    # todo handle request status code only process requests with response 200
+
     asset = {'assets': list(), 'links': list()}
     parse_url = urlparse(url)
     base_url = parse_url[0]+'://'+parse_url[1]
@@ -68,6 +68,7 @@ def getWebsiteAssets(url: str, url_count: int = -1) -> list:
     """
     # todo add logic to control depth
     # todo try to implement this using recursion
+    # todo use multi threading to speed this up
     urls = set()
     imgurls = set()
     result = fetch(url)
