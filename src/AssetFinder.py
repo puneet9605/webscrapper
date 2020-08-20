@@ -13,7 +13,7 @@ def fetch(url: str) -> dict:
     Returns:
 
     """
-
+    # todo add expection handling to make sure the code does not stops
     htmlbody = requests.get(url).text
     soup = BeautifulSoup(htmlbody, 'lxml')
     # getting all the img tags
@@ -37,11 +37,18 @@ def getWebsiteAssets(url: str)-> list:
         list of image urls
 
     """
+    #todo add exception handling
+    #todo add logic to control depth
+    #todo try to implement this using recursion
+    #todo convert the image relative url to full urls
+
     urls = set()
     imgurls = set()
     result = fetch(url)
     urls.update(result['links'])
     imgurls.update(result['assets'])
+    # lopping through all the links and adding them to the list
+    # using set to remove duplicates
     for link in result['links']:
         page = fetch(link)
         imgurls.update(page['assets'])
