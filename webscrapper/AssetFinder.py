@@ -22,6 +22,9 @@ def fetch(url: str) -> dict:
     base_url = parse_url[0]+'://'+parse_url[1]
     try:
         htmlbody = requests.get(url).text
+    except requests.ConnectionError as ex:
+        print("url is not present on the internet :)")
+        return asset
     except MissingSchema as ex:
         print(traceback.format_exc())
         return asset
