@@ -24,12 +24,14 @@ def fetch(url: str) -> dict:
         res = requests.get(url)
         res.raise_for_status()
         htmlbody = requests.get(url).text
-    except requests.exceptions.HTTPError as err:
+    except requests.exceptions.HTTPError:
+        print("response code not OK")
         return asset
-    except requests.ConnectionError as ex:
+    except requests.ConnectionError:
         print("url is not present on the internet :)")
         return asset
-    except MissingSchema as ex:
+    except MissingSchema:
+        print("url schema is invalid :)")
         print(traceback.format_exc())
         return asset
 
@@ -87,5 +89,5 @@ def getWebsiteAssets(url: str, url_count: int = -1) -> list:
     return list(imgurls)
 
 if __name__ == '__main__':
-    fetch('http://www.udemy.com/')
-    #getWebsiteAssets('http://www.udemy.com/', 3)
+    #fetch('http://www.udemy.com/')
+    print(getWebsiteAssets('http://www.udemy.com/', 3))
