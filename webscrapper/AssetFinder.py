@@ -21,7 +21,11 @@ def fetch(url: str) -> dict:
     parse_url = urlparse(url)
     base_url = parse_url[0]+'://'+parse_url[1]
     try:
+        res = requests.get(url)
+        res.raise_for_status()
         htmlbody = requests.get(url).text
+    except requests.exceptions.HTTPError as err:
+        return asset
     except requests.ConnectionError as ex:
         print("url is not present on the internet :)")
         return asset
